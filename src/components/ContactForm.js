@@ -8,6 +8,7 @@ const ContactForm = () => {
   });
   const onSubmit = data => {
     setData(data);
+    reset();
   };
 
   return (
@@ -19,7 +20,7 @@ const ContactForm = () => {
             name="firstName"
             id='firstName'
             placeholder="bill"
-            ref={register({ required: true, maxLength: 3 })}
+            ref={register({ required: true })}
           />
           {errors.firstName && (
             <p>Looks like there was an error: {errors.firstName.type}</p>
@@ -53,11 +54,11 @@ const ContactForm = () => {
           <textarea id='message' name="message" ref={register({ required: false })} />
         </div>
         {data && (
-          <pre style={{ textAlign: "left", color: "white" }}>
+          <pre data-testid='data' style={{ textAlign: "left", color: "white" }}>
             {JSON.stringify(data, null, 2)}
           </pre>
         )}
-        <input type="submit" />
+        <button type="submit" data-testid='submit'>Submit</button>
       </form>
     </div>
   );
