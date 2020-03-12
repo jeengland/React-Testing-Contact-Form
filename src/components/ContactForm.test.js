@@ -14,6 +14,7 @@ test('Correctly accepts submissions', async () => {
     const lastName = getByLabelText(/last name/i);
     const email = getByLabelText(/email/i);
     const message = getByLabelText(/message/i);
+    const consent = getByLabelText(/consent/);
     const submit = getByTestId('submit');
 
     // Send in test values
@@ -28,6 +29,9 @@ test('Correctly accepts submissions', async () => {
     });
     fireEvent.change(message, {
         target: { name: 'message', value: 'Hello world'}
+    });
+    fireEvent.change(consent, {
+        target: { name: 'consent', checked: true }
     });
     // Submit 
     fireEvent.click(submit);
@@ -50,10 +54,14 @@ test('Form doesn\'t accept an invalid email/displays an error', async () => {
     fireEvent.change(email,{ target: { name: 'email', value: 'email'}})
     // Submit and check for the correct error
     fireEvent.click(submit);
-    await findByText(/error: pattern/);
+    await findByText(/error: pattern/i);
 });
 
 // Test to see of form rejects empty required fields
 test('Form submits', async () => {
-    render(<ContactForm />)
+    const { getByTestId, findAllByText } = render(<ContactForm />)
+    // Click the submit button
+    fireEvent.click(getByTestId('submit'));
+    // Check to make sure 3 errors appear
+    await findAllByText(/error/i);
 })

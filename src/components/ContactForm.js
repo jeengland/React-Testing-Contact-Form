@@ -57,6 +57,10 @@ const ContactForm = () => {
           <label htmlFor="message">Message</label>
           <textarea id='message' name="message" ref={register({ required: false })} />
         </div>
+        <div>
+          <input type='checkbox' id='consent' name='consent' ref={register({ required: false })} />
+          <label htmlFor='consent'>I consent to receiving a reply.</label>
+        </div>
         {data && (
           <pre data-testid='data' style={{ textAlign: "left", color: "white" }}>
             {JSON.stringify(data, null, 2)}
