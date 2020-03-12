@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, wait } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import ContactForm from './ContactForm';
 
-test('The element has rendered', () => {
+test('Renders properly', () => {
     render(<ContactForm />)
 })
 
@@ -41,5 +41,19 @@ test('Correctly accepts submissions', async () => {
 });
 
 // Test to see if form rejects invalid email
+test('Form doesn\'t accept an invalid email/displays an error', async () => {
+    const { getByLabelText, getByTestId, findByText } = render(<ContactForm />);
+    // Get email field and submit button
+    const email = getByLabelText(/email/i);
+    const submit = getByTestId('submit');
+    // Put in failing email value
+    fireEvent.change(email,{ target: { name: 'email', value: 'email'}})
+    // Submit and check for the correct error
+    fireEvent.click(submit);
+    await findByText(/error: pattern/);
+});
 
 // Test to see of form rejects empty required fields
+test('Form submits', async () => {
+    render(<ContactForm />)
+})
